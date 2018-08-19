@@ -79,3 +79,9 @@ vi
 exit
 y
 exit
+nvim
+nvim --version
+python --version
+vi dotfiles/install.sh 
+sh dotfiles/install.sh 
+exit

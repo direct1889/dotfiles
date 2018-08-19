@@ -31,3 +31,12 @@ do
 	fi
 done
 
+
+cd ${DotDirectory}/.bash
+for f in .??*
+do
+	if ! $(echo ${Excludes[@]} | grep -q "$f") ; then
+		ln -snfv ${DotDirectory}/.bash/${f} ${HOME}/${f}
+	fi
+done
+
