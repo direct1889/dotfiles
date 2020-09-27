@@ -130,8 +130,8 @@ nnoremap D "_D
 nnoremap c "_c
 nnoremap C "_C
 
-vnoremap d "_d
-vnoremap c "_c
+" vnoremap d "_d
+" vnoremap c "_c
 
 nnoremap Y y$
 " 

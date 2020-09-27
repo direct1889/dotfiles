@@ -17,6 +17,8 @@ alias pip='pip3'
 alias python='python3'
 alias python2='python2.7'
 
+export TESSDATA_PREFIX="/usr/local/Cellar/tesseract/4.0.0/share/tessdata/"
+
 
 if [ -f $HOME/bin/git-prompt.sh ]; then
 	source $HOME/bin/git-prompt.sh
