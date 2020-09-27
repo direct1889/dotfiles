@@ -1,4 +1,38 @@
 [core]
 	excludesfile = /Users/kazuaki/.gitignore_global
+	sparsecheckout = true
+	editor = vim -c \"set fenc=utf-8\"
 [alias]
+	st = status
+	df = diff
+	lg = log
+	co = checkout
+	br = branch
+	bra = branch -a
+	cl = clean -df
+	ad = add
+	cm = commit
+	ft = fetch
+	mg = merge
+	pl = pull
+	plorg = pull origin
+	ps = push
+	psu = push -u
+	psorg = push -u origin
+	# %d:TopOfBranch, %s:CommitMessage, %an:AuthorName, %ad:AuthorizedDate, %h:CommitSerialNo., %C(colorname):TextColorOfTheFollowWord
 	graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
+	tree = log --graph --pretty=format:'%x09%C(auto) %h %C(green)%ad [%C(cyan ul)%an%Creset] %C(auto)%d %C(auto)%s' --date=short
+	tr = tree -n 10
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[user]
+	name = direct1889
+	email = s969.6261asthastnkzgfk@gmail.com
+[commit]
+	template = /Users/kazuaki/.stCommitMsg
+[color]
+	ui = auto
