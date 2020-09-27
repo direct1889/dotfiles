@@ -40,10 +40,8 @@ do
 	fi
 done
 
-ln -snfv ${DotDirectory}/.zprezto ${HOME}/.zprezto
-
-cd ${DotDirectory}/.zprezto
-for f in .??*
+cd ${DotDirectory}/.zprezto/runcoms/
+for f in z*
 do
 	if ! $(echo ${Excludes[@]} | grep -q "$f") ; then
 		ln -snfv ${DotDirectory}/.zprezto/runcoms/${f} ${HOME}/.${f}
