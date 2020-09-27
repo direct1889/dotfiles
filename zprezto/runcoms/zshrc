@@ -1,0 +1,220 @@
+#
+# Executes commands at the start of an interactive session.
+#
+# Authors:
+#   Sorin Ionescu <sorin.ionescu@gmail.com>
+#
+
+# Source Prezto.
+if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+fi
+
+# Customize to your needs...
+
+alias la='ls -al'
+alias cl='clear'
+
+alias mvim='open -a MacVim.app'
+alias vizshrc='vi ~/.zshrc'
+
+## python
+
+alias python='python3'
+alias python2='python2.7'
+alias pip='pip3'
+
+## git
+
+alias gist='git st'
+alias gidf='git df'
+alias gibr='git bra'
+alias gitr='git tr'
+alias gilg='git lg'
+alias giad='git ad'
+alias gicm='git cm'
+
+
+# z.sh
+source ~/.zsh.d/z.sh
+
+
+### # fzf
+### [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+### export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+### export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+### 
+### # fzf for z
+### fzfz() {
+###     local res=$(z | sort -rn | cut -c 12- | fzf)
+###     if [ -n "$res" ]; then
+###         BUFFER+="cd $res"
+###         zle accept-line
+###     else
+###         return 1
+###     fi
+### }
+### 
+### zle -N fzf-z-search
+### # bindkey '^[f' fzf-z-search
+### 
+### # fzf for git
+### ## fbr - checkout git branch
+### fbr() {
+###   local branches branch
+###   branches=$(git branch -vv) &&
+###   branch=$(echo "$branches" | fzf +m) &&
+###   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+### }
+### 
+### ## fbr - checkout git branch (including remote branches)
+### fbrm() {
+###   local branches branch
+###   branches=$(git branch --all | grep -v HEAD) &&
+###   branch=$(echo "$branches" |
+###            fzf-tmux -d $(( 2 + $(wc -l <<< "$branches") )) +m) &&
+###   git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
+### }
+### ## fshow - git commit browser
+### fshow() {
+###   git log --graph --color=always \
+###       --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+###   fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+###       --bind "ctrl-m:execute:
+###                 (grep -o '[a-f0-9]\{7\}' | head -1 |
+###                 xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+###                 {}
+### FZF-EOF"
+### }
+### ## fd - cd to selected directory
+### fd() {
+###   local dir
+###   dir=$(find ${1:-.} -path '*/\.*' -prune \
+###                   -o -type d -print 2> /dev/null | fzf +m) &&
+###   cd "$dir"
+### }
+
+
+# ---------- yuta1402 ----------
+# https://github.com/yuta1402/dotfiles/blob/master/.zshrc
+
+# 補完を有効にする
+autoload -U compinit && compinit
+# 補完で小文字でも大文字でもマッチさせる
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# 補完候補一覧をカラー表示
+zstyle ':completion:*' list-colors ''
+
+# ビープ音をオフにする
+setopt nobeep
+
+# ヒストリの設定
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+# 異なるウィンドウでヒストリを共有する
+setopt share_history
+# 直前と同じコマンドをヒストリに追加しない
+setopt hist_ignore_dups
+# 同じコマンドをヒストリに残さない
+setopt hist_ignore_all_dups
+# historyコマンドは履歴に残さない
+setopt hist_no_store
+# 最終行が出力されない減少の回避
+## プロンプトを表示する直前に<CR>を出力する
+setopt prompt_cr
+## prompt_crによって表示されなかった行を保持する
+setopt prompt_sp
+
+autoload -Uz colors
+autoload -Uz vcs_info
+
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
+zstyle ':vcs_info:*' formats "%F{green}%c%u(%b)%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+
+# PROMPT変数内で変数参照
+setopt prompt_subst
+
+precmd () { vcs_info }
+
+PROMPT='%n@%m[%~] ${vcs_info_msg_0_}
+$ '
+
+alias df='df -h'
+
+case "${OSTYPE}" in
+    darwin*)
+        alias ls='ls -hG'
+        alias ll='ls -lhG'
+        alias la='ls -lahG'
+        ;;
+    linux*)
+        alias ls='ls -hv --color'
+        alias ll='ls -lhv --color'
+        alias la='ls -alhv --color'
+        ;;
+esac
+
+# bind C-r to select history by peco
+function peco-select-history() {
+  BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
+  CURSOR=$#BUFFER
+  zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+# bind C-] to select repo directory by peco
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
+
+if [ -d $HOME/bin ]; then
+	export PATH=$PATH:$HOME/bin
+fi
+
+if [ -f $HOME/.zshrc.local ]; then
+    source $HOME/.zshrc.local
+fi
+
+
+# ---------- Chainer ----------
+# cf. [](https://qiita.com/komakomako/items/2b6921c1068bb26582da)
+##export PATH=/usr/local/cuda/bin:$PATH
+##export LD_LIBRARY_PATH=/usr/local/cuda/lib:$LD_LIBRARY_PATH
+##export DYLD_LIBRARY_PATH=/usr/local/cuda/lib:$DYLD_LIBRARY_PATH
+export PATH=/Developer/NVIDIA/CUDA-10.2/bin:$PATH
+export DYLD_LIBRARY_PATH=/Developer/NVIDIA/CUDA-10.2/lib:$DYLD_LIBRARY_PATH
+
+# ---------- yuta1402 ----------
+
+
+export ANT_HOME="/usr/local/bin/ant/"
+export PATH="$PATH:$ANT_HOME/bin"
+
+# Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
+export COCOS_CONSOLE_ROOT="/Applications/cocos2d-x/tools/cocos2d-console/bin"
+export PATH=$COCOS_CONSOLE_ROOT:$PATH
+
+# Add environment variable COCOS_X_ROOT for cocos2d-x
+export COCOS_X_ROOT="/Applications"
+export PATH=$COCOS_X_ROOT:$PATH
+
+# Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x
+export COCOS_TEMPLATES_ROOT="/Applications/cocos2d-x/templates"
+export PATH=$COCOS_TEMPLATES_ROOT:$PATH
+
+# Add environment variable ANDROID_SDK_ROOT for cocos2d-x
+export ANDROID_SDK_ROOT="/usr/local/Caskroom/android-sdk/4333796"
+export PATH=$ANDROID_SDK_ROOT:$PATH
+export PATH=$ANDROID_SDK_ROOT/tools:$ANDROID_SDK_ROOT/platform-tools:$PATH
