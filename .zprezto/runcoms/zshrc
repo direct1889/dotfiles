@@ -17,6 +17,8 @@ alias cl='clear'
 
 alias mvim='open -a MacVim.app'
 alias vizshrc='vi ~/.zshrc'
+alias rcchange='vi ~/.zshrc'
+alias rcreload='source ~/.zshrc'
 
 ## python
 
@@ -28,7 +30,7 @@ alias pip='pip3'
 
 alias gist='git st'
 alias gidf='git df'
-alias gibr='git bra'
+alias gibr='git br'
 alias gitr='git tr'
 alias gilg='git lg'
 alias giad='git ad'
@@ -187,6 +189,10 @@ if [ -f $HOME/.zshrc.local ]; then
     source $HOME/.zshrc.local
 fi
 
+
+# ---------- PATH ----------
+# node.js
+export PATH="$PATH:$HOME/.nodebrew/current/bin"
 
 # ---------- Chainer ----------
 # cf. [](https://qiita.com/komakomako/items/2b6921c1068bb26582da)
