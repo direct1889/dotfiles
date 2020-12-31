@@ -12,13 +12,12 @@
 	cl = clean -df
 	ad = add
 	cm = commit
-	ft = fetch
+	ft = fetch -p
 	mg = merge
 	pl = pull
-	plorg = pull origin
 	ps = push
 	psu = push -u
-	psorg = push -u origin
+	sb = submodule
 	# %d:TopOfBranch, %s:CommitMessage, %an:AuthorName, %ad:AuthorizedDate, %h:CommitSerialNo., %C(colorname):TextColorOfTheFollowWord
 	graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
 	tree = log --graph --pretty=format:'%x09%C(auto) %h %C(green)%ad [%C(cyan ul)%an%Creset] %C(auto)%d %C(auto)%s' --date=short
@@ -36,3 +35,5 @@
 	template = /Users/kazuaki/.stCommitMsg
 [color]
 	ui = auto
+[pull]
+	rebase = false
