@@ -41,11 +41,11 @@ alias gicm='git cm'
 source ~/.zsh.d/z.sh
 
 
-### # fzf
-### [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-### export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-### export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
-### 
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
 ### # fzf for z
 ### fzfz() {
 ###     local res=$(z | sort -rn | cut -c 12- | fzf)
