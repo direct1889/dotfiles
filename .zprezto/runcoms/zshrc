@@ -30,12 +30,21 @@ alias pip='pip3'
 
 alias gist='git st'
 alias gidf='git df'
-alias gibr='git br'
-alias gitr='git tr'
 alias gilg='git lg'
+alias gico='git co'
+alias gibr='git br'
 alias giad='git ad'
+alias gicl='git cl'
 alias gicm='git cm'
-
+alias gift='git ft'
+alias gimg='git mg'
+alias gipl='git pl'
+alias gips='git ps'
+alias gipsu='git psu'
+alias gisb='git sb'
+alias gish='git sh'
+alias gichp='git chp'
+alias gitr='git tr'
 
 # z.sh
 source ~/.zsh.d/z.sh
