@@ -18,6 +18,8 @@
 	ps = push
 	psu = push -u
 	sb = submodule
+	sh = stash
+	chp = cherry-pick
 	# %d:TopOfBranch, %s:CommitMessage, %an:AuthorName, %ad:AuthorizedDate, %h:CommitSerialNo., %C(colorname):TextColorOfTheFollowWord
 	graph = log --graph --date-order -C -M --pretty=format:\"<%h> %ad [%an] %Cgreen%d%Creset %s\" --all --date=short
 	tree = log --graph --pretty=format:'%x09%C(auto) %h %C(green)%ad [%C(cyan ul)%an%Creset] %C(auto)%d %C(auto)%s' --date=short
